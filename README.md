@@ -3,7 +3,7 @@ Just a simple implementation of chat application using socket.io on ExpressJS
 
 
 # Installation
->> npm i 
+> npm i 
 
 then visit `localhost:3300` for start to use.
 
