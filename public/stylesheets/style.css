@@ -1,0 +1,44 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.chat-window {
+  background: #cedcff;
+  padding: 15px 20px;
+  margin-bottom: 20px;
+  height: 400px;
+  display: block;
+  overflow-y: auto;
+}
+
+#chat-content p {
+  color: #195720;
+  margin:0 0 10px 0;
+}
+
+.chat-msg-box input, form input {
+  display: block;
+  height: 50px;
+  font-size: 21px;
+  background: #ffffff;
+  color: #333333;
+  width: 100%;
+  border: 1px solid #aaaaaa;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+form button {
+  background: #00B7FF;
+  color: #1B4E62;
+  font-size: 18px;
+  border: 1px solid #1299CE;
+  padding: 5px 20px;
+  margin-top: 20px;
+  float: right;
+}

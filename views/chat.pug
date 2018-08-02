@@ -1,0 +1,72 @@
+extends layout
+
+block head
+  script(src="/javascripts/socket.io.slim.js")
+  script.
+    var sock = io.connect('http://localhost:3300');
+    sock.on('intro', function(data) {
+      console.log('Got message from server: ', data);
+    });
+
+    sock.emit('incoming-user');
+
+    var putMessage = function(name, msg, bold) {
+      var c = document.getElementById('chat-content');
+      var bolder = bold ? '<strong>' + name + '</strong>' : name;
+      c.innerHTML = c.innerHTML + '<p><strong>>></strong> '+ bolder +': ' + msg + '</p>';
+    };
+
+    var systemMsg = function(msg) {
+      var c = document.getElementById('chat-content');
+      c.innerHTML = c.innerHTML + '<p><strong>>> System:</strong> <small><i>'+msg+'</i></small></p>';
+    }
+
+    sock.on('chat-incoming', function(data) {
+      putMessage(data.name, data.message);
+    });
+
+    sock.on('new-user-joined', function(){
+      systemMsg('New user joined...');
+    });
+
+    sock.on('user-disconnected', function(){
+      systemMsg('Some user leave...');
+    });
+
+    sock.on('broadcast-message', function(data){
+      putMessage(data.name, data.message, true);
+    })
+
+    var main = function(evt) {
+      var messageInput = document.getElementById('messageInput');
+      var form = document.getElementById('formMessage');
+
+      messageInput.addEventListener('keyup', function(evt) {
+        if (evt.keyCode === 13) {
+          sock.emit('chat-message', { 
+            name: form.elements['messageName'].value,
+            message: form.elements['messageInput'].value,
+          });
+
+          putMessage(form.elements['messageName'].value, form.elements['messageInput'].value);
+          
+          form.elements['messageInput'].value = '';
+        }
+      });
+
+      form.addEventListener('submit', function(evt) {
+        evt.preventDefault();
+      });
+    };
+
+    document.addEventListener('DOMContentLoaded', main);
+
+block content
+  h1 Chat App
+  .chat-container
+    .chat-window
+      #chat-content
+    .chat-msg-box
+      form(method="post", id="formMessage")
+        input(type="text", id="messageName", placeholder="Your Alias here...")
+        input(type="text", id="messageInput", placeholder="Type and hit enter to send...")
