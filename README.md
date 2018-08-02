@@ -1,4 +1,4 @@
-# simple-socket-chat
+# Simple socket chat app
 Just a simple implementation of chat application using socket.io on ExpressJS
 
 
